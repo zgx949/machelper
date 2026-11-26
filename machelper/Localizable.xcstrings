@@ -1,0 +1,153 @@
+{
+  "sourceLanguage" : "zh-Hans",
+  "strings" : {
+    "Accessibility granted" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Accessibility granted" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "已授予辅助功能权限" } }
+      }
+    },
+    "Accessibility required for scrolling, windows and shortcuts" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Accessibility required for scrolling, windows and shortcuts" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "滚动、窗口和快捷键功能需要辅助功能权限" } }
+      }
+    },
+    "Clear History" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Clear History" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "清空历史" } }
+      }
+    },
+    "Clipboard" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Clipboard" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "剪切板" } }
+      }
+    },
+    "Clipboard history" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Clipboard history" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "剪切板历史" } }
+      }
+    },
+    "Clipboard History" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Clipboard History" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "剪切板历史" } }
+      }
+    },
+    "Grant Accessibility…" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Grant Accessibility…" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "授予辅助功能权限…" } }
+      }
+    },
+    "Keep %lld items" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Keep %lld items" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "保留 %lld 条" } }
+      }
+    },
+    "Left / right half" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Left / right half" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "左半屏 / 右半屏" } }
+      }
+    },
+    "machelper" : {
+      "shouldTranslate" : false
+    },
+    "Maximize / center" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Maximize / center" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "填满 / 居中" } }
+      }
+    },
+    "No Items" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No Items" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "暂无记录" } }
+      }
+    },
+    "Open System Settings…" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Open System Settings…" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "打开系统设置…" } }
+      }
+    },
+    "Permissions" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Permissions" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "权限" } }
+      }
+    },
+    "Quit machelper" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Quit machelper" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "退出 machelper" } }
+      }
+    },
+    "Record clipboard history" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Record clipboard history" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "记录剪切板历史" } }
+      }
+    },
+    "Reverse mouse" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Reverse mouse" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "反转鼠标滚动" } }
+      }
+    },
+    "Reverse trackpad" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Reverse trackpad" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "反转触控板滚动" } }
+      }
+    },
+    "Scroll down / up" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Scroll down / up" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "向下 / 向上滚动" } }
+      }
+    },
+    "Scroll down / up (page)" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Scroll down / up (page)" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "向下 / 向上滚动（大段）" } }
+      }
+    },
+    "Scrolling" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Scrolling" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "滚动" } }
+      }
+    },
+    "Search clipboard" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Search clipboard" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "搜索剪切板" } }
+      }
+    },
+    "Settings…" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Settings…" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "设置…" } }
+      }
+    },
+    "Shortcuts" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Shortcuts" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "快捷键" } }
+      }
+    },
+    "Top / bottom half" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Top / bottom half" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "上半屏 / 下半屏" } }
+      }
+    }
+  },
+  "version" : "1.0"
+}
