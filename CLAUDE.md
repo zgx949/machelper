@@ -22,8 +22,8 @@ There is no XCTest target yet. Pure-logic files can be checked without one by co
 
 ```sh
 xcrun swiftc -swift-version 5 -default-isolation MainActor -o /tmp/logic-tests \
-  machelper/Features/Window/WindowLayout.swift machelper/Features/Scroll/ScrollRules.swift \
-  machelper/Features/Clipboard/ClipboardHistory.swift machelper/Core/SyntheticEvent.swift /tmp/main.swift && /tmp/logic-tests
+  machelper/Plugins/Window/WindowLayout.swift machelper/Plugins/Scroll/ScrollRules.swift \
+  machelper/Plugins/Clipboard/ClipboardHistory.swift machelper/Core/SyntheticEvent.swift /tmp/main.swift && /tmp/logic-tests
 ```
 
 Accessibility permission is granted per binary signature; after a rebuild macOS may need the app re-approved in System Settings → Privacy & Security → Accessibility.
@@ -32,19 +32,21 @@ Accessibility permission is granted per binary signature; after a rebuild macOS 
 
 ```
 machelper/
-├── App/        MachelperApp (@main, MenuBarExtra + Settings scene), AppDelegate, AppCoordinator
-├── Core/       Feature protocol, HotKeyCenter (Carbon), Permissions, AppSettings, SyntheticEvent
-├── Features/   Clipboard/, Scroll/, Window/, Actions/ — one folder per feature
-└── Settings/   SettingsView
+├── App/        MachelperApp (@main, MenuBarExtra + Settings scene), AppDelegate, PluginCatalog
+├── Core/       Plugin/ (Plugin, PluginContext, PluginHost, CommandRegistry), HotKey, HotKeyCenter, Permissions, SyntheticEvent
+├── Plugins/    Clipboard/, Window/, Scroll/, Actions/ — one folder per plugin
+└── Settings/   SettingsView (plugin list with switches + selected plugin's detail)
 ```
 
-- Every feature conforms to `Feature` (`start()` / `stop()`) and is created and owned by `AppCoordinator`. Clipboard starts immediately; Scroll, Window and Actions need Accessibility and are started by the coordinator once permission is granted (it polls every 2 s, no relaunch needed).
-- **Features depend only on `Core`, never on each other.** Shared cross-feature values go in `Core` (e.g. `SyntheticEvent` marks events posted by `ScrollAction` so `ScrollEventTap` skips them).
-- Each feature separates pure logic from system calls: `WindowLayout` / `WindowMover`, `ScrollRules` / `ScrollEventTap`, `ClipboardHistory` / `ClipboardStore` + `ClipboardMonitor` + `Paster`. Keep new logic testable the same way.
-- `AppSettings` (`@Observable`, `UserDefaults`) is main-actor only. Code on other threads gets value snapshots: `ScrollFeature` observes settings and pushes `ScrollRules` into the tap via a `Mutex`.
-- `ScrollEventTap` runs on its own thread; its callback must stay IO-free and fast, and it re-enables itself on `tapDisabledByTimeout`.
-- Clipboard history is JSON at `~/Library/Application Support/machelper/clipboard-history.json`, written on a background queue. Items carrying nspasteboard.org concealed/transient/auto-generated types are not recorded; `Paster` tags its own writes as auto-generated.
-- Hotkeys are hard-coded in each feature's `bindings` (and mirrored in `SettingsView`'s shortcut list — keep both in sync).
+- Every feature is a `Plugin`: a static `manifest` (id, name, icon, required permissions, `enabledByDefault`), `init(context:)`, `commands`, `activate()` / `deactivate()` and an optional `makeSettingsView()`. Adding a plugin = a folder under `Plugins/` plus one line in `PluginCatalog.all`.
+- `PluginHost` creates every plugin once at launch and drives its state: `off` / `waitingForPermission` / `running` / `failed`. Switches persist under `pluginHost.enabled.<id>`. Plugins missing a permission wait; the host polls every 2 s and activates them once granted (no relaunch). A throwing `activate()` only marks that plugin as failed.
+- **Plugins never touch `HotKeyCenter`.** They declare shortcuts on `PluginCommand`; `CommandRegistry` registers them while the plugin runs and removes them on deactivate, recording `.duplicate` / `.unavailable` conflicts (shown red in Settings). The menu bar and the Settings shortcut list are both built from the registry, so there is nothing to keep in sync by hand.
+- **Plugins depend only on `Core`, never on each other.** Shared cross-plugin values go in `Core` (e.g. `SyntheticEvent` marks events posted by `ScrollAction` so `ScrollEventTap` skips them).
+- `PluginContext` gives each plugin a `UserDefaults` namespace (`plugins.<id>.` via `PluginStore`) and a data folder (`~/Library/Application Support/machelper/<id>/`). Per-plugin settings are small `@Observable` main-actor classes on top of `PluginStore`.
+- Each plugin separates pure logic from system calls: `WindowLayout` / `WindowMover`, `ScrollRules` / `ScrollEventTap`, `ClipboardHistory` / `ClipboardStore` + `ClipboardMonitor` + `Paster`. Keep new logic testable the same way.
+- Code on other threads gets value snapshots: `ScrollPlugin` observes `ScrollSettings` and pushes `ScrollRules` into the tap via a `Mutex`. `ScrollEventTap` runs on its own thread; its callback must stay IO-free and fast, and it re-enables itself on `tapDisabledByTimeout`.
+- Clipboard history is JSON at `~/Library/Application Support/machelper/clipboard/history.json`, written on a background queue. Items carrying nspasteboard.org concealed/transient/auto-generated types are not recorded; `Paster` tags its own writes as auto-generated.
+- `ActionsPlugin` (keyboard scrolling) is off by default: its ⌃⌥J/K clash with Magnet's corner layouts.
 
 ## Build settings that affect code
 

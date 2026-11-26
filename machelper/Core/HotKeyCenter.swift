@@ -1,18 +1,9 @@
 import AppKit
 import Carbon.HIToolbox
 
-/// A global keyboard shortcut: a virtual key code plus Carbon modifier flags.
-struct HotKey: Hashable {
-    let keyCode: UInt32
-    let modifiers: UInt32
-
-    init(_ keyCode: Int, _ modifiers: Int) {
-        self.keyCode = UInt32(keyCode)
-        self.modifiers = UInt32(modifiers)
-    }
-}
-
 /// Registers system-wide hotkeys through Carbon and runs their actions on the main actor.
+///
+/// Only `CommandRegistry` uses this; plugins declare shortcuts on their commands instead.
 final class HotKeyCenter {
     static let shared = HotKeyCenter()
 
@@ -28,7 +19,7 @@ final class HotKeyCenter {
         installDispatcher()
     }
 
-    @discardableResult
+    /// Returns `nil` when the system refuses the shortcut.
     func register(_ hotKey: HotKey, action: @escaping () -> Void) -> Token? {
         let token = nextToken
         nextToken += 1

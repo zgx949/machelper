@@ -1,6 +1,17 @@
 import AppKit
 import ApplicationServices
 
+/// A system permission a plugin needs before `PluginHost` activates it.
+enum Permission: Hashable {
+    case accessibility
+
+    var isGranted: Bool {
+        switch self {
+        case .accessibility: Permissions.isAccessibilityTrusted
+        }
+    }
+}
+
 /// Accessibility permission is required for window control, event taps and synthetic paste.
 enum Permissions {
     static var isAccessibilityTrusted: Bool {

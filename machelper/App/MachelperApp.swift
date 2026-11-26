@@ -7,36 +7,43 @@ struct MachelperApp: App {
 
     var body: some Scene {
         MenuBarExtra("machelper", systemImage: "wand.and.stars") {
-            MenuBarContent(coordinator: appDelegate.coordinator)
+            MenuBarContent(host: appDelegate.host)
         }
         Settings {
-            SettingsView(coordinator: appDelegate.coordinator)
+            SettingsView(host: appDelegate.host)
         }
     }
 }
 
-/// Owns the coordinator so features live for the whole process, independent of scenes.
+/// Owns the plugin host so plugins live for the whole process, independent of scenes.
 final class AppDelegate: NSObject, NSApplicationDelegate {
-    let coordinator = AppCoordinator()
+    let host = PluginHost(plugins: PluginCatalog.all)
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        coordinator.start()
+        host.start()
     }
 
     func applicationWillTerminate(_ notification: Notification) {
-        coordinator.stop()
+        host.stop()
     }
 }
 
+/// One section per running plugin, listing its commands with their shortcuts.
 private struct MenuBarContent: View {
-    let coordinator: AppCoordinator
+    let host: PluginHost
     @Environment(\.openSettings) private var openSettings
 
     var body: some View {
-        Button("Clipboard History") { coordinator.clipboard.showPanel() }
-            .keyboardShortcut("v", modifiers: [.command, .shift])
+        ForEach(host.entries.filter { $0.state == .running }) { entry in
+            let bindings = host.commands.bindings[entry.id] ?? []
+            if !bindings.isEmpty {
+                Section(entry.manifest.name) {
+                    ForEach(bindings) { CommandButton(binding: $0) }
+                }
+            }
+        }
 
-        if !coordinator.isAccessibilityTrusted {
+        if host.isWaitingForPermission {
             Divider()
             Button("Grant Accessibility…") { Permissions.openAccessibilitySettings() }
         }
@@ -49,5 +56,22 @@ private struct MenuBarContent: View {
         .keyboardShortcut(",")
         Button("Quit machelper") { NSApp.terminate(nil) }
             .keyboardShortcut("q")
+    }
+}
+
+private struct CommandButton: View {
+    let binding: CommandRegistry.Binding
+
+    var body: some View {
+        let command = binding.command
+        Button(action: command.perform) {
+            if let icon = command.icon {
+                Label(command.title, systemImage: icon)
+            } else {
+                Text(command.title)
+            }
+        }
+        // Display only: the global hotkey does the work. Conflicting shortcuts are not shown.
+        .keyboardShortcut(binding.conflict == nil ? command.shortcut?.keyboardShortcut : nil)
     }
 }

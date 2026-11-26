@@ -1,57 +1,124 @@
 import SwiftUI
 
-/// Preferences window. Edits `AppSettings` directly; features pick up changes on their own.
+/// Preferences window: plugin list with on/off switches on the left, the selected plugin on the right.
 struct SettingsView: View {
-    let coordinator: AppCoordinator
+    let host: PluginHost
+    @State private var selection: String?
 
     var body: some View {
-        @Bindable var settings = coordinator.settings
+        NavigationSplitView {
+            List(host.entries, selection: $selection) { entry in
+                PluginRow(entry: entry, isOn: Binding(
+                    get: { entry.isEnabled },
+                    set: { host.setEnabled($0, for: entry.id) }
+                ))
+            }
+            .navigationSplitViewColumnWidth(230)
+        } detail: {
+            if let entry = host.entries.first(where: { $0.id == selection }) {
+                PluginDetail(host: host, entry: entry)
+            } else {
+                ContentUnavailableView("Select a Plugin", systemImage: "puzzlepiece.extension")
+            }
+        }
+        .frame(width: 700, height: 460)
+        .onAppear { selection = selection ?? host.entries.first?.id }
+    }
+}
+
+private struct PluginRow: View {
+    let entry: PluginHost.Entry
+    let isOn: Binding<Bool>
+
+    var body: some View {
+        HStack {
+            Image(systemName: entry.manifest.icon)
+                .frame(width: 20)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(entry.manifest.name)
+                PluginStatusLabel(state: entry.state)
+                    .font(.caption)
+            }
+            Spacer()
+            Toggle(isOn: isOn) { Text(entry.manifest.name) }
+                .labelsHidden()
+                .toggleStyle(.switch)
+                .controlSize(.mini)
+        }
+        .padding(.vertical, 2)
+    }
+}
+
+private struct PluginDetail: View {
+    let host: PluginHost
+    let entry: PluginHost.Entry
+
+    var body: some View {
+        let shortcuts = host.shortcuts(for: entry).filter { $0.command.shortcut != nil }
 
         Form {
-            Section("Permissions") {
-                if coordinator.isAccessibilityTrusted {
-                    Label("Accessibility granted", systemImage: "checkmark.circle.fill")
-                        .foregroundStyle(.green)
-                } else {
-                    Label("Accessibility required for scrolling, windows and shortcuts", systemImage: "exclamationmark.triangle.fill")
-                        .foregroundStyle(.orange)
+            Section {
+                LabeledContent {
+                    PluginStatusLabel(state: entry.state)
+                } label: {
+                    Label(entry.manifest.name, systemImage: entry.manifest.icon)
+                        .font(.headline)
+                }
+                Text(entry.manifest.summary)
+                    .foregroundStyle(.secondary)
+                if entry.state == .waitingForPermission {
                     Button("Open System Settings…") { Permissions.openAccessibilitySettings() }
                 }
             }
 
-            Section("Scrolling") {
-                Toggle("Reverse mouse", isOn: $settings.reverseMouse)
-                Toggle("Reverse trackpad", isOn: $settings.reverseTrackpad)
+            if !shortcuts.isEmpty {
+                Section("Shortcuts") {
+                    ForEach(shortcuts) { ShortcutRow(binding: $0) }
+                }
             }
 
-            Section("Clipboard") {
-                Toggle("Record clipboard history", isOn: $settings.clipboardEnabled)
-                Stepper("Keep \(settings.clipboardHistoryLimit) items", value: $settings.clipboardHistoryLimit, in: 20...1000, step: 20)
-                Button("Clear History", role: .destructive) { coordinator.clipboard.store.clear() }
-            }
-
-            Section("Shortcuts") {
-                ShortcutRow(title: "Clipboard history", keys: "⌘⇧V")
-                ShortcutRow(title: "Left / right half", keys: "⌃⌥← / ⌃⌥→")
-                ShortcutRow(title: "Top / bottom half", keys: "⌃⌥↑ / ⌃⌥↓")
-                ShortcutRow(title: "Maximize / center", keys: "⌃⌥↩ / ⌃⌥C")
-                ShortcutRow(title: "Scroll down / up", keys: "⌃⌥J / ⌃⌥K")
-                ShortcutRow(title: "Scroll down / up (page)", keys: "⌃⌥⇧J / ⌃⌥⇧K")
+            if let settings = entry.plugin.makeSettingsView() {
+                settings
             }
         }
         .formStyle(.grouped)
-        .frame(width: 440)
-        .fixedSize(horizontal: false, vertical: true)
     }
 }
 
 private struct ShortcutRow: View {
-    let title: LocalizedStringKey
-    let keys: String
+    let binding: CommandRegistry.Binding
 
     var body: some View {
-        LabeledContent(title) {
-            Text(keys).monospaced().foregroundStyle(.secondary)
+        LabeledContent(binding.command.title) {
+            HStack(spacing: 6) {
+                if let conflict = binding.conflict {
+                    Image(systemName: "exclamationmark.triangle.fill")
+                        .foregroundStyle(.red)
+                        .help(conflict == .duplicate
+                            ? Text("Used by another command")
+                            : Text("Taken by the system or another app"))
+                }
+                Text(binding.command.shortcut?.displayString ?? "")
+                    .monospaced()
+                    .foregroundStyle(binding.conflict == nil ? AnyShapeStyle(.secondary) : AnyShapeStyle(.red))
+            }
+        }
+    }
+}
+
+private struct PluginStatusLabel: View {
+    let state: PluginHost.State
+
+    var body: some View {
+        switch state {
+        case .off:
+            Text("Off").foregroundStyle(.secondary)
+        case .waitingForPermission:
+            Text("Waiting for Accessibility").foregroundStyle(.orange)
+        case .running:
+            Text("Running").foregroundStyle(.green)
+        case .failed(let reason):
+            Text("Failed: \(reason)").foregroundStyle(.red)
         }
     }
 }

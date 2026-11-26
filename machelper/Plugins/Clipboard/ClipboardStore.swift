@@ -11,7 +11,7 @@ final class ClipboardStore {
     @ObservationIgnored private let fileURL: URL
     @ObservationIgnored private let writer = DispatchQueue(label: "machelper.clipboard-store", qos: .utility)
 
-    init(fileURL: URL = ClipboardStore.defaultFileURL) {
+    init(fileURL: URL) {
         self.fileURL = fileURL
         self.history = Self.load(from: fileURL)
     }
@@ -56,9 +56,4 @@ final class ClipboardStore {
         return history
     }
 
-    nonisolated static var defaultFileURL: URL {
-        URL.applicationSupportDirectory
-            .appending(path: "machelper", directoryHint: .isDirectory)
-            .appending(path: "clipboard-history.json")
-    }
 }
