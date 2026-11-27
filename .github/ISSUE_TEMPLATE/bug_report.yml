@@ -1,0 +1,53 @@
+name: Bug 报告 / Bug report
+description: 报告一个问题 / Report a problem
+labels: [bug]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: machelper 版本 / Version
+      description: "在访达中对 machelper.app 选择“显示简介”，或运行 `defaults read /Applications/machelper.app/Contents/Info CFBundleShortVersionString`"
+      placeholder: 0.1.0
+    validations:
+      required: true
+  - type: input
+    id: macos
+    attributes:
+      label: macOS 版本 / macOS version
+      placeholder: "27.2"
+    validations:
+      required: true
+  - type: dropdown
+    id: plugin
+    attributes:
+      label: 相关功能 / Feature
+      options:
+        - 剪贴板历史 / Clipboard
+        - 滚动反转 / Scroll
+        - 窗口分屏 / Window
+        - 键盘滚动 / Actions
+        - 设置或菜单栏 / Settings & menu bar
+        - 其他 / Other
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤 / Steps to reproduce
+      placeholder: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期望与实际结果 / Expected vs actual
+    validations:
+      required: true
+  - type: textarea
+    id: extra
+    attributes:
+      label: 其他信息 / Additional context
+      description: 截图、相关 App、是否已授予辅助功能权限等
