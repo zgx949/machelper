@@ -89,7 +89,7 @@ private struct ShortcutRow: View {
     let binding: CommandRegistry.Binding
 
     var body: some View {
-        LabeledContent(binding.command.title) {
+        LabeledContent {
             HStack(spacing: 6) {
                 if let conflict = binding.conflict {
                     Image(systemName: "exclamationmark.triangle.fill")
@@ -102,6 +102,8 @@ private struct ShortcutRow: View {
                     .monospaced()
                     .foregroundStyle(binding.conflict == nil ? AnyShapeStyle(.secondary) : AnyShapeStyle(.red))
             }
+        } label: {
+            CommandLabel(title: binding.command.title, icon: binding.command.icon)
         }
     }
 }

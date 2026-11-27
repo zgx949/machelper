@@ -28,19 +28,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 }
 
-/// One section per running plugin, listing its commands with their shortcuts.
+/// One section per running plugin, then permissions, Settings and Quit.
 private struct MenuBarContent: View {
     let host: PluginHost
     @Environment(\.openSettings) private var openSettings
 
     var body: some View {
         ForEach(host.entries.filter { $0.state == .running }) { entry in
-            let bindings = host.commands.bindings[entry.id] ?? []
-            if !bindings.isEmpty {
-                Section(entry.manifest.name) {
-                    ForEach(bindings) { CommandButton(binding: $0) }
-                }
-            }
+            PluginMenuSection(entry: entry, bindings: host.commands.bindings[entry.id] ?? [])
         }
 
         if host.isWaitingForPermission {
@@ -59,19 +54,43 @@ private struct MenuBarContent: View {
     }
 }
 
+/// A plugin's commands with a divider between groups, followed by its state-dependent items.
+private struct PluginMenuSection: View {
+    let entry: PluginHost.Entry
+    let bindings: [CommandRegistry.Binding]
+
+    var body: some View {
+        let items = entry.plugin.menuItems
+        if !bindings.isEmpty || !items.isEmpty {
+            Section(entry.manifest.name) {
+                ForEach(Array(bindings.enumerated()), id: \.element.id) { index, binding in
+                    if index > 0, binding.command.group != bindings[index - 1].command.group {
+                        Divider()
+                    }
+                    CommandButton(binding: binding)
+                }
+                if !items.isEmpty {
+                    Divider()
+                    ForEach(items) { item in
+                        Button(item.title, action: item.perform)
+                    }
+                }
+            }
+        }
+    }
+}
+
 private struct CommandButton: View {
     let binding: CommandRegistry.Binding
 
     var body: some View {
         let command = binding.command
         Button(action: command.perform) {
-            if let icon = command.icon {
-                Label(command.title, systemImage: icon)
-            } else {
-                Text(command.title)
-            }
+            CommandLabel(title: command.title, icon: command.icon)
+                .labelStyle(.titleAndIcon) // menus drop Label icons by default
         }
         // Display only: the global hotkey does the work. Conflicting shortcuts are not shown.
         .keyboardShortcut(binding.conflict == nil ? command.shortcut?.keyboardShortcut : nil)
+        .disabled(!command.isEnabled())
     }
 }

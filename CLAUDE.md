@@ -22,7 +22,7 @@ There is no XCTest target yet. Pure-logic files can be checked without one by co
 
 ```sh
 xcrun swiftc -swift-version 5 -default-isolation MainActor -o /tmp/logic-tests \
-  machelper/Plugins/Window/WindowLayout.swift machelper/Plugins/Scroll/ScrollRules.swift \
+  machelper/Plugins/Window/WindowLayout.swift machelper/Plugins/Window/WindowHistory.swift machelper/Plugins/Scroll/ScrollRules.swift \
   machelper/Plugins/Clipboard/ClipboardHistory.swift machelper/Core/SyntheticEvent.swift /tmp/main.swift && /tmp/logic-tests
 ```
 
@@ -46,7 +46,8 @@ machelper/
 - Each plugin separates pure logic from system calls: `WindowLayout` / `WindowMover`, `ScrollRules` / `ScrollEventTap`, `ClipboardHistory` / `ClipboardStore` + `ClipboardMonitor` + `Paster`. Keep new logic testable the same way.
 - Code on other threads gets value snapshots: `ScrollPlugin` observes `ScrollSettings` and pushes `ScrollRules` into the tap via a `Mutex`. `ScrollEventTap` runs on its own thread; its callback must stay IO-free and fast, and it re-enables itself on `tapDisabledByTimeout`.
 - Clipboard history is JSON at `~/Library/Application Support/machelper/clipboard/history.json`, written on a background queue. Items carrying nspasteboard.org concealed/transient/auto-generated types are not recorded; `Paster` tags its own writes as auto-generated.
-- `ActionsPlugin` (keyboard scrolling) is off by default: its ⌃⌥J/K clash with Magnet's corner layouts.
+- Commands can carry a `group` (the menu puts dividers between groups) and an `isEnabled` closure; plugins can also return state-dependent `menuItems` (e.g. "Ignore “Warp”"). Both are read while the menu renders, so back them with `@Observable` state — `WindowPlugin` tracks the frontmost app and screen count via notifications for this.
+- Window shortcuts mirror Magnet's. `ActionsPlugin` (keyboard scrolling) is off by default because its ⌃⌥J/K are the window plugin's bottom corners; with both on, the registry marks Actions' shortcuts as duplicates.
 
 ## Build settings that affect code
 

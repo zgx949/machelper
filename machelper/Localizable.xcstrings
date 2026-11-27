@@ -17,6 +17,38 @@
         }
       }
     },
+    "Bottom Left" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bottom Left"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "左下"
+          }
+        }
+      }
+    },
+    "Bottom Right" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bottom Right"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "右下"
+          }
+        }
+      }
+    },
     "Center" : {
       "localizations" : {
         "en" : {
@@ -29,6 +61,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "居中"
+          }
+        }
+      }
+    },
+    "Center Third" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Center Third"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中 1/3"
           }
         }
       }
@@ -129,6 +177,38 @@
         }
       }
     },
+    "Ignore “%@”" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ignore “%@”"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "忽略“%@”"
+          }
+        }
+      }
+    },
+    "Ignored Apps" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ignored Apps"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已忽略的应用"
+          }
+        }
+      }
+    },
     "Keep %lld items" : {
       "localizations" : {
         "en" : {
@@ -177,6 +257,38 @@
         }
       }
     },
+    "Left Third" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Left Third"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "左 1/3"
+          }
+        }
+      }
+    },
+    "Left Two Thirds" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Left Two Thirds"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "左 2/3"
+          }
+        }
+      }
+    },
     "machelper" : {
       "shouldTranslate" : false
     },
@@ -196,18 +308,18 @@
         }
       }
     },
-    "Move the focused window to halves of the screen." : {
+    "Next Display" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Move the focused window to halves of the screen."
+            "value" : "Next Display"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "把当前窗口移到屏幕的某一半。"
+            "value" : "下一个显示器"
           }
         }
       }
@@ -260,6 +372,22 @@
         }
       }
     },
+    "Previous Display" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Previous Display"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上一个显示器"
+          }
+        }
+      }
+    },
     "Quit machelper" : {
       "localizations" : {
         "en" : {
@@ -272,6 +400,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "退出 machelper"
+          }
+        }
+      }
+    },
+    "Remove" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除"
+          }
+        }
+      }
+    },
+    "Restore" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restore"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "还原"
           }
         }
       }
@@ -336,6 +496,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "右半屏"
+          }
+        }
+      }
+    },
+    "Right Third" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Right Third"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "右 1/3"
+          }
+        }
+      }
+    },
+    "Right Two Thirds" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Right Two Thirds"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "右 2/3"
           }
         }
       }
@@ -548,6 +740,38 @@
         }
       }
     },
+    "Snap the focused window to halves, quarters or thirds, move it between displays and restore it." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Snap the focused window to halves, quarters or thirds, move it between displays and restore it."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "把当前窗口移到半屏、四角或三分屏，在显示器之间移动，并可还原。"
+          }
+        }
+      }
+    },
+    "Stop Ignoring “%@”" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stop Ignoring “%@”"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "取消忽略“%@”"
+          }
+        }
+      }
+    },
     "Taken by the system or another app" : {
       "localizations" : {
         "en" : {
@@ -576,6 +800,54 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "上半屏"
+          }
+        }
+      }
+    },
+    "Top Left" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Top Left"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "左上"
+          }
+        }
+      }
+    },
+    "Top Right" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Top Right"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "右上"
+          }
+        }
+      }
+    },
+    "Use the menu bar to ignore the frontmost app." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use the menu bar to ignore the frontmost app."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可在菜单栏中忽略当前最前面的应用。"
           }
         }
       }

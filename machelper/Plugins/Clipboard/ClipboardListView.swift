@@ -30,11 +30,13 @@ struct ClipboardListView: View {
                     .frame(maxHeight: .infinity)
             } else {
                 ScrollViewReader { proxy in
-                    List(results, selection: $selection) { item in
-                        ClipboardRow(item: item)
-                            .tag(item.id)
-                            .id(item.id)
-                            .onTapGesture(count: 2) { onPick(item) }
+                    List(selection: $selection) {
+                        ForEach(Array(results.enumerated()), id: \.element.id) { index, item in
+                            ClipboardRow(item: item, quickKey: index < Self.quickKeyCount ? index + 1 : nil)
+                                .tag(item.id)
+                                .id(item.id)
+                                .onTapGesture(count: 2) { onPick(item) }
+                        }
                     }
                     .listStyle(.plain)
                     .onChange(of: selection) { _, id in
@@ -52,6 +54,19 @@ struct ClipboardListView: View {
             onDismiss()
             return .handled
         }
+        .onKeyPress(characters: .decimalDigits, action: pickQuickKey)
+    }
+
+    /// ⌘1…⌘9 paste the n-th visible item (follows the search filter).
+    private static let quickKeyCount = 9
+
+    private func pickQuickKey(_ press: KeyPress) -> KeyPress.Result {
+        guard press.modifiers == .command,
+              let number = Int(press.characters),
+              (1...Self.quickKeyCount).contains(number),
+              number <= results.count else { return .ignored }
+        onPick(results[number - 1])
+        return .handled
     }
 
     private func reset() {
@@ -76,15 +91,25 @@ struct ClipboardListView: View {
 
 private struct ClipboardRow: View {
     let item: ClipboardItem
+    /// 1…9 for the items reachable with ⌘1…⌘9.
+    let quickKey: Int?
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 2) {
-            Text(item.text.trimmingCharacters(in: .whitespacesAndNewlines))
-                .lineLimit(2)
-                .truncationMode(.tail)
-            Text(item.copiedAt, style: .relative)
-                .font(.caption)
-                .foregroundStyle(.secondary)
+        HStack(alignment: .firstTextBaseline) {
+            VStack(alignment: .leading, spacing: 2) {
+                Text(item.text.trimmingCharacters(in: .whitespacesAndNewlines))
+                    .lineLimit(2)
+                    .truncationMode(.tail)
+                Text(item.copiedAt, style: .relative)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            Spacer(minLength: 8)
+            if let quickKey {
+                Text(verbatim: "⌘\(quickKey)")
+                    .monospaced()
+                    .foregroundStyle(.secondary)
+            }
         }
         .padding(.vertical, 2)
     }

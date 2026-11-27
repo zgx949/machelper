@@ -1,7 +1,7 @@
 import Carbon.HIToolbox
 import SwiftUI
 
-/// Keyboard-driven scrolling. Off by default: ⌃⌥J/K clash with Magnet's corner layouts.
+/// Keyboard-driven scrolling. Off by default: ⌃⌥J/K are the Window Layouts plugin's bottom corners.
 final class ActionsPlugin: Plugin {
     static let manifest = PluginManifest(
         id: "actions",
@@ -26,7 +26,7 @@ final class ActionsPlugin: Plugin {
     }
 
     private func command(
-        _ id: String, _ title: LocalizedStringKey, _ icon: String, _ shortcut: HotKey, _ action: ScrollAction
+        _ id: String, _ title: LocalizedStringKey, _ icon: CommandIcon, _ shortcut: HotKey, _ action: ScrollAction
     ) -> PluginCommand {
         PluginCommand(id: "actions.\(id)", title: title, icon: icon, shortcut: shortcut) { action.perform() }
     }

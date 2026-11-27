@@ -1,0 +1,16 @@
+# macOS
+.DS_Store
+
+# Xcode
+xcuserdata/
+*.xcuserstate
+DerivedData/
+build/
+*.xcarchive
+
+# Release artifacts
+dist/
+*.dmg
+
+# Local tool settings
+.claude/settings.local.json

@@ -1,45 +1,46 @@
 import AppKit
 import ApplicationServices
 
-/// Moves and resizes the frontmost window through the Accessibility API.
-enum WindowMover {
-    static func apply(_ layout: WindowLayout) {
-        guard let window = focusedWindow(), let current = frame(of: window) else { return }
-        guard let screen = screen(containing: current) else { return }
+/// The focused window of an app, read and moved through the Accessibility API.
+///
+/// `frame` uses AppKit coordinates (origin at the bottom-left of the primary screen).
+struct FocusedWindow {
+    let element: AXUIElement
+    let frame: CGRect
 
-        let target = layout.frame(for: current, in: screen.visibleFrame)
-        setFrame(target, of: window)
-    }
-
-    // MARK: - Accessibility
-
-    private static func focusedWindow() -> AXUIElement? {
-        guard let app = NSWorkspace.shared.frontmostApplication else { return nil }
+    init?(of app: NSRunningApplication) {
         let appElement = AXUIElementCreateApplication(app.processIdentifier)
-
         var value: CFTypeRef?
         guard AXUIElementCopyAttributeValue(appElement, kAXFocusedWindowAttribute as CFString, &value) == .success,
               let value, CFGetTypeID(value) == AXUIElementGetTypeID() else { return nil }
-        return (value as! AXUIElement)
+        let element = value as! AXUIElement
+
+        guard let origin: CGPoint = Self.attribute(kAXPositionAttribute, of: element, type: .cgPoint),
+              let size: CGSize = Self.attribute(kAXSizeAttribute, of: element, type: .cgSize) else { return nil }
+        self.element = element
+        self.frame = Self.flip(CGRect(origin: origin, size: size))
     }
 
-    private static func frame(of window: AXUIElement) -> CGRect? {
-        guard let origin: CGPoint = attribute(kAXPositionAttribute, of: window, type: .cgPoint),
-              let size: CGSize = attribute(kAXSizeAttribute, of: window, type: .cgSize) else { return nil }
-        return toAppKit(CGRect(origin: origin, size: size))
+    var id: WindowID { WindowID(element: element) }
+
+    /// The screen showing the largest part of the window.
+    var screen: NSScreen? {
+        NSScreen.screens.max { lhs, rhs in
+            lhs.frame.intersection(frame).area < rhs.frame.intersection(frame).area
+        } ?? NSScreen.main
     }
 
     /// Size → position → size: the second resize fixes apps that clamp size to the old screen.
-    private static func setFrame(_ frame: CGRect, of window: AXUIElement) {
-        let axFrame = toAppKit(frame) // the flip is its own inverse
+    func setFrame(_ frame: CGRect) {
+        let axFrame = Self.flip(frame)
         var origin = axFrame.origin
         var size = axFrame.size
         guard let position = AXValueCreate(.cgPoint, &origin),
               let dimensions = AXValueCreate(.cgSize, &size) else { return }
 
-        AXUIElementSetAttributeValue(window, kAXSizeAttribute as CFString, dimensions)
-        AXUIElementSetAttributeValue(window, kAXPositionAttribute as CFString, position)
-        AXUIElementSetAttributeValue(window, kAXSizeAttribute as CFString, dimensions)
+        AXUIElementSetAttributeValue(element, kAXSizeAttribute as CFString, dimensions)
+        AXUIElementSetAttributeValue(element, kAXPositionAttribute as CFString, position)
+        AXUIElementSetAttributeValue(element, kAXSizeAttribute as CFString, dimensions)
     }
 
     private static func attribute<T>(_ name: String, of element: AXUIElement, type: AXValueType) -> T? {
@@ -53,18 +54,20 @@ enum WindowMover {
         return pointer.pointee
     }
 
-    // MARK: - Geometry
-
     /// Converts between AX coordinates (top-left origin) and AppKit coordinates (bottom-left origin).
-    private static func toAppKit(_ rect: CGRect) -> CGRect {
+    /// The conversion is its own inverse.
+    private static func flip(_ rect: CGRect) -> CGRect {
         let primaryHeight = NSScreen.screens.first?.frame.height ?? 0
         return CGRect(x: rect.minX, y: primaryHeight - rect.maxY, width: rect.width, height: rect.height)
     }
+}
 
-    private static func screen(containing rect: CGRect) -> NSScreen? {
-        NSScreen.screens.max { lhs, rhs in
-            lhs.frame.intersection(rect).area < rhs.frame.intersection(rect).area
-        } ?? NSScreen.main
+/// Identity of a window across lookups; AX elements compare with `CFEqual`.
+struct WindowID: Equatable {
+    let element: AXUIElement
+
+    static func == (lhs: WindowID, rhs: WindowID) -> Bool {
+        CFEqual(lhs.element, rhs.element)
     }
 }
 
