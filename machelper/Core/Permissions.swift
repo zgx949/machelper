@@ -20,12 +20,18 @@ enum Permissions {
 
     /// Shows the system prompt that adds this app to System Settings → Privacy → Accessibility.
     static func requestAccessibility() {
-        let options = ["AXTrustedCheckOptionPrompt": true] as CFDictionary
+        let options = [kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true] as CFDictionary
         AXIsProcessTrustedWithOptions(options)
     }
 
     static func openAccessibilitySettings() {
         let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility")!
         NSWorkspace.shared.open(url)
+    }
+
+    /// Register this binary in the permission list before taking the user to its switch.
+    static func requestAndOpenAccessibilitySettings() {
+        requestAccessibility()
+        openAccessibilitySettings()
     }
 }

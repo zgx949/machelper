@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Compiles the app's pure-logic sources with Tests/LogicTests/main.swift and runs the checks.
+# Compiles logic and scroll-event sources with Tests/LogicTests/main.swift and runs the checks.
 # Used locally and by CI. There is no XCTest target yet.
 set -euo pipefail
 
@@ -12,6 +12,7 @@ SOURCES=(
   machelper/Plugins/Window/WindowLayout.swift
   machelper/Plugins/Window/WindowHistory.swift
   machelper/Plugins/Scroll/ScrollRules.swift
+  machelper/Plugins/Scroll/ScrollEventTap.swift
   machelper/Plugins/Clipboard/ClipboardHistory.swift
   machelper/Core/SyntheticEvent.swift
   Tests/LogicTests/main.swift

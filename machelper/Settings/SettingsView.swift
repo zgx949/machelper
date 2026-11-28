@@ -3,15 +3,22 @@ import SwiftUI
 /// Preferences window: plugin list with on/off switches on the left, the selected plugin on the right.
 struct SettingsView: View {
     let host: PluginHost
+    let showSetup: () -> Void
     @State private var selection: String?
 
     var body: some View {
         NavigationSplitView {
-            List(host.entries, selection: $selection) { entry in
-                PluginRow(entry: entry, isOn: Binding(
-                    get: { entry.isEnabled },
-                    set: { host.setEnabled($0, for: entry.id) }
-                ))
+            VStack(spacing: 0) {
+                List(host.entries, selection: $selection) { entry in
+                    PluginRow(entry: entry, isOn: Binding(
+                        get: { entry.isEnabled },
+                        set: { host.setEnabled($0, for: entry.id) }
+                    ))
+                }
+                Divider()
+                Button("Setup Guide…", action: showSetup)
+                    .buttonStyle(.link)
+                    .padding(12)
             }
             .navigationSplitViewColumnWidth(230)
         } detail: {
@@ -67,7 +74,13 @@ private struct PluginDetail: View {
                 Text(entry.manifest.summary)
                     .foregroundStyle(.secondary)
                 if entry.state == .waitingForPermission {
-                    Button("Open System Settings…") { Permissions.openAccessibilitySettings() }
+                    Text("Scroll reversal, window tiling and pasting need Accessibility. Enable machelper in System Settings → Privacy & Security → Accessibility.")
+                        .font(.callout)
+                    Button("Open System Settings…") { Permissions.requestAndOpenAccessibilitySettings() }
+                    Button("Check Again") { host.refreshPermissions(retryFailures: true) }
+                }
+                if case .failed = entry.state {
+                    Button("Retry") { host.refreshPermissions(retryFailures: true) }
                 }
             }
 
@@ -108,7 +121,7 @@ private struct ShortcutRow: View {
     }
 }
 
-private struct PluginStatusLabel: View {
+struct PluginStatusLabel: View {
     let state: PluginHost.State
 
     var body: some View {

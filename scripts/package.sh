@@ -73,9 +73,15 @@ fi
 
 ZIP="$DIST/$APP_NAME-$VERSION.zip"
 DMG="$DIST/$APP_NAME-$VERSION.dmg"
+INSTALL_GUIDE="scripts/packaging/Installation.html"
+GUIDE_NAME="Installation.html"
 
 echo "==> Creating $ZIP"
-ditto -c -k --sequesterRsrc --keepParent "$APP" "$ZIP"
+ZIP_ROOT="$STAGE/zip"
+mkdir -p "$ZIP_ROOT"
+ditto "$APP" "$ZIP_ROOT/$APP_NAME.app"
+cp "$INSTALL_GUIDE" "$ZIP_ROOT/$GUIDE_NAME"
+ditto -c -k --sequesterRsrc "$ZIP_ROOT" "$ZIP"
 
 echo "==> Creating $DMG"
 DMG_ROOT="$STAGE/dmg"

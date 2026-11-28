@@ -8,6 +8,18 @@ Each release on GitHub uses the notes from its section here.
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-11-28
+
+### Added
+
+- App logo, a complete macOS app icon and a matching menu bar icon.
+- Bilingual first-launch setup covering installation, Accessibility permission and feature checks, with a guide available from the menu and Settings.
+- Installation instructions included in DMG and ZIP downloads.
+
+### Fixed
+
+- Explain Accessibility before requesting it, detect permission changes while running and provide explicit retries for plugins that fail to start.
+
 ## [0.1.0] - 2026-11-27
 
 First public release.
@@ -22,5 +34,6 @@ First public release.
 - Shortcut conflict detection: duplicate or unavailable shortcuts are shown in red in Settings.
 - Simplified Chinese and English UI, following the system language.
 
-[Unreleased]: https://github.com/zgx949/machelper/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/zgx949/machelper/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/zgx949/machelper/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/zgx949/machelper/releases/tag/v0.1.0

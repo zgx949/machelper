@@ -4,7 +4,7 @@ import Observation
 /// Creates every plugin, persists its on/off switch and drives its lifecycle.
 ///
 /// A plugin that is switched on but lacks a permission waits in `.waitingForPermission`;
-/// the host polls every 2 s and activates it once granted, so no relaunch is needed.
+/// the host polls every second and activates it once granted, so no relaunch is needed.
 /// A plugin whose `activate()` throws is marked `.failed` without affecting the others.
 @Observable
 final class PluginHost {
@@ -26,13 +26,17 @@ final class PluginHost {
 
     let commands: CommandRegistry
     private(set) var entries: [Entry]
+    private(set) var isAccessibilityGranted = false
 
     @ObservationIgnored private let defaults: UserDefaults
+    @ObservationIgnored private let permissionGranted: (Permission) -> Bool
     @ObservationIgnored private var permissionTimer: Timer?
 
-    init(plugins: [any Plugin.Type], defaults: UserDefaults = .standard, commands: CommandRegistry = CommandRegistry()) {
+    init(plugins: [any Plugin.Type], defaults: UserDefaults = .standard, commands: CommandRegistry = CommandRegistry(),
+         permissionGranted: @escaping (Permission) -> Bool = { $0.isGranted }) {
         self.defaults = defaults
         self.commands = commands
+        self.permissionGranted = permissionGranted
         self.entries = plugins.map { type in
             Entry(manifest: type.manifest, plugin: type.init(context: PluginContext(id: type.manifest.id, defaults: defaults)))
         }
@@ -42,13 +46,16 @@ final class PluginHost {
         entries.contains { $0.state == .waitingForPermission }
     }
 
+    var hasFailures: Bool {
+        entries.contains { if case .failed = $0.state { return true }; return false }
+    }
+
     func start() {
+        isAccessibilityGranted = permissionGranted(.accessibility)
         for index in entries.indices where isSwitchedOn(entries[index].manifest) {
             activate(at: index)
         }
-        if isWaitingForPermission {
-            Permissions.requestAccessibility()
-        }
+        monitorPermissions()
     }
 
     func stop() {
@@ -61,7 +68,6 @@ final class PluginHost {
         defaults.set(enabled, forKey: Self.enabledKey(id))
         if enabled {
             activate(at: index)
-            if entries[index].state == .waitingForPermission { Permissions.requestAccessibility() }
         } else {
             deactivate(at: index)
         }
@@ -77,9 +83,8 @@ final class PluginHost {
     private func activate(at index: Int) {
         let entry = entries[index]
         guard entry.state != .running else { return }
-        guard entry.manifest.permissions.allSatisfy(\.isGranted) else {
+        guard entry.manifest.permissions.allSatisfy(permissionGranted) else {
             entries[index].state = .waitingForPermission
-            waitForPermissions()
             return
         }
         do {
@@ -87,6 +92,8 @@ final class PluginHost {
             commands.register(entry.plugin.commands, for: entry.id)
             entries[index].state = .running
         } catch {
+            // A plugin may have acquired resources before throwing; leave retries a clean slate.
+            entry.plugin.deactivate()
             entries[index].state = .failed(error.localizedDescription)
         }
     }
@@ -101,20 +108,27 @@ final class PluginHost {
 
     // MARK: - Permissions
 
-    private func waitForPermissions() {
+    private func monitorPermissions() {
         guard permissionTimer == nil else { return }
-        let timer = Timer(timeInterval: 2, repeats: true) { [weak self] _ in
-            MainActor.assumeIsolated { self?.recheckPermissions() }
+        let timer = Timer(timeInterval: 1, repeats: true) { [weak self] _ in
+            MainActor.assumeIsolated { self?.refreshPermissions() }
         }
         RunLoop.main.add(timer, forMode: .common)
         permissionTimer = timer
     }
 
-    private func recheckPermissions() {
-        let waiting = entries.indices.filter { entries[$0].state == .waitingForPermission }
-        guard !waiting.isEmpty else { return stopWaiting() }
-        for index in waiting where entries[index].manifest.permissions.allSatisfy(\.isGranted) {
-            activate(at: index)
+    /// Also called when returning from System Settings. Failures retry only on user action.
+    func refreshPermissions(retryFailures: Bool = false) {
+        isAccessibilityGranted = permissionGranted(.accessibility)
+        for index in entries.indices where entries[index].isEnabled {
+            if !entries[index].manifest.permissions.allSatisfy(permissionGranted) {
+                if entries[index].state == .running { deactivate(at: index) }
+                entries[index].state = .waitingForPermission
+            } else if entries[index].state == .waitingForPermission {
+                activate(at: index)
+            } else if retryFailures, case .failed = entries[index].state {
+                activate(at: index)
+            }
         }
     }
 

@@ -115,15 +115,97 @@ checkEqual(try JSONDecoder().decode(ClipboardHistory.self, from: encoded), clips
 
 // MARK: - ScrollRules
 
-checkEqual(ScrollDevice(isContinuous: false, hasPhase: false), .mouse, "discrete scroll is mouse")
-checkEqual(ScrollDevice(isContinuous: true, hasPhase: false), .trackpad, "continuous scroll is trackpad")
-checkEqual(ScrollDevice(isContinuous: false, hasPhase: true), .trackpad, "phased scroll is trackpad")
 let rules = ScrollRules(reverseMouse: true, reverseTrackpad: false)
 check(rules.shouldReverse(.mouse), "reverse mouse")
 check(!rules.shouldReverse(.trackpad), "keep trackpad")
 
+// Real CGEvents exercise the same handler used by the system tap, without
+// installing a global tap or requiring Accessibility permission.
+func scrollEvent(continuous: Bool, scrollPhase: Int64 = 0, momentumPhase: Int64 = 0) -> CGEvent {
+    guard let event = CGEvent(scrollWheelEvent2Source: nil, units: .line, wheelCount: 2, wheel1: 3, wheel2: -2, wheel3: 0) else {
+        fatalError("Could not create a scroll event")
+    }
+    event.setIntegerValueField(.scrollWheelEventIsContinuous, value: continuous ? 1 : 0)
+    event.setIntegerValueField(.scrollWheelEventScrollPhase, value: scrollPhase)
+    event.setIntegerValueField(.scrollWheelEventMomentumPhase, value: momentumPhase)
+    event.setDoubleValueField(.scrollWheelEventFixedPtDeltaAxis1, value: 1.5)
+    event.setDoubleValueField(.scrollWheelEventFixedPtDeltaAxis2, value: -2.25)
+    event.setIntegerValueField(.scrollWheelEventPointDeltaAxis1, value: 45)
+    event.setIntegerValueField(.scrollWheelEventPointDeltaAxis2, value: -67)
+    return event
+}
+
+let scrollDevices: [(name: String, continuous: Bool, phase: Int64, momentum: Int64, device: ScrollDevice)] = [
+    ("line-based mouse", false, 0, 0, .mouse),
+    ("pixel-based mouse", true, 0, 0, .mouse),
+    ("trackpad gesture", true, 1, 0, .trackpad),
+    ("trackpad momentum only", true, 0, 1, .trackpad),
+    ("phased line-based event", false, 1, 0, .trackpad),
+]
+let deltaFields: [(CGEventField, Double)] = [
+    (.scrollWheelEventDeltaAxis1, 3),
+    (.scrollWheelEventDeltaAxis2, -2),
+    (.scrollWheelEventFixedPtDeltaAxis1, 1.5),
+    (.scrollWheelEventFixedPtDeltaAxis2, -2.25),
+    (.scrollWheelEventPointDeltaAxis1, 45),
+    (.scrollWheelEventPointDeltaAxis2, -67),
+]
+
+for sample in scrollDevices {
+    let event = scrollEvent(continuous: sample.continuous, scrollPhase: sample.phase, momentumPhase: sample.momentum)
+    checkEqual(event.getIntegerValueField(.eventSourceUserData), 0, "hardware-style event has no synthetic marker")
+    checkEqual(ScrollDevice(event), sample.device, "classify \(sample.name)")
+    for reverseMouse in [false, true] {
+        for reverseTrackpad in [false, true] {
+            let tap = ScrollEventTap(rules: ScrollRules(reverseMouse: reverseMouse, reverseTrackpad: reverseTrackpad))
+            let input = event.copy()!
+            let output = tap.handle(.scrollWheel, input)?.takeUnretainedValue()
+            check(output === input, "handler passes through \(sample.name)")
+            let reversed = sample.device == .mouse ? reverseMouse : reverseTrackpad
+            for (field, delta) in deltaFields {
+                checkEqual(input.getDoubleValueField(field), reversed ? -delta : delta,
+                           "\(sample.name), mouse=\(reverseMouse), trackpad=\(reverseTrackpad), field \(field.rawValue)")
+            }
+            checkEqual(input.getIntegerValueField(.scrollWheelEventIsContinuous), sample.continuous ? 1 : 0,
+                       "reversal preserves scroll units")
+            checkEqual(input.getIntegerValueField(.scrollWheelEventScrollPhase), sample.phase,
+                       "reversal preserves gesture phase")
+            checkEqual(input.getIntegerValueField(.scrollWheelEventMomentumPhase), sample.momentum,
+                       "reversal preserves momentum phase")
+        }
+    }
+}
+
+// A high-resolution wheel can move by pixels without a whole line delta.
+// Writing the zero line delta must not erase its fractional/pixel movement.
+let subLineMouse = scrollEvent(continuous: true)
+subLineMouse.setIntegerValueField(.scrollWheelEventDeltaAxis1, value: 0)
+subLineMouse.setIntegerValueField(.scrollWheelEventDeltaAxis2, value: 0)
+subLineMouse.setDoubleValueField(.scrollWheelEventFixedPtDeltaAxis1, value: 0.5)
+subLineMouse.setDoubleValueField(.scrollWheelEventFixedPtDeltaAxis2, value: -0.25)
+subLineMouse.setIntegerValueField(.scrollWheelEventPointDeltaAxis1, value: 4)
+subLineMouse.setIntegerValueField(.scrollWheelEventPointDeltaAxis2, value: -2)
+let subLineTap = ScrollEventTap(rules: rules)
+_ = subLineTap.handle(.scrollWheel, subLineMouse)
+checkEqual(subLineMouse.getIntegerValueField(.scrollWheelEventDeltaAxis1), 0, "sub-line mouse retains zero vertical line delta")
+checkEqual(subLineMouse.getIntegerValueField(.scrollWheelEventDeltaAxis2), 0, "sub-line mouse retains zero horizontal line delta")
+checkEqual(subLineMouse.getDoubleValueField(.scrollWheelEventFixedPtDeltaAxis1), -0.5, "sub-line vertical fixed-point delta reverses")
+checkEqual(subLineMouse.getDoubleValueField(.scrollWheelEventFixedPtDeltaAxis2), 0.25, "sub-line horizontal fixed-point delta reverses")
+checkEqual(subLineMouse.getIntegerValueField(.scrollWheelEventPointDeltaAxis1), -4, "sub-line vertical pixel delta reverses")
+checkEqual(subLineMouse.getIntegerValueField(.scrollWheelEventPointDeltaAxis2), 2, "sub-line horizontal pixel delta reverses")
+
+let liveTap = ScrollEventTap(rules: rules)
+liveTap.update(ScrollRules(reverseMouse: false, reverseTrackpad: true))
+let updatedMouse = scrollEvent(continuous: true)
+let updatedTrackpad = scrollEvent(continuous: true, momentumPhase: 1)
+_ = liveTap.handle(.scrollWheel, updatedMouse)
+_ = liveTap.handle(.scrollWheel, updatedTrackpad)
+checkEqual(updatedMouse.getIntegerValueField(.scrollWheelEventPointDeltaAxis1), 45, "updated mouse preference takes effect")
+checkEqual(updatedTrackpad.getIntegerValueField(.scrollWheelEventPointDeltaAxis1), -45, "updated trackpad preference takes effect")
+
 // MARK: - SyntheticEvent
 
+check(SyntheticEvent.marker != 0, "synthetic marker must not match unmarked hardware events")
 if let event = CGEvent(scrollWheelEvent2Source: nil, units: .line, wheelCount: 1, wheel1: 3, wheel2: 0, wheel3: 0) {
     check(!SyntheticEvent.isOurs(event), "unmarked event is not ours")
     SyntheticEvent.mark(event)
@@ -131,6 +213,16 @@ if let event = CGEvent(scrollWheelEvent2Source: nil, units: .line, wheelCount: 1
 } else {
     check(false, "could not create a scroll event")
 }
+
+let synthetic = scrollEvent(continuous: true)
+SyntheticEvent.mark(synthetic)
+check(SyntheticEvent.isOurs(synthetic), "synthetic scroll fixture is marked before handling")
+let syntheticTap = ScrollEventTap(rules: ScrollRules(reverseMouse: true, reverseTrackpad: true))
+_ = syntheticTap.handle(.scrollWheel, synthetic)
+for (field, delta) in deltaFields {
+    checkEqual(synthetic.getDoubleValueField(field), delta, "app-generated scroll is not reversed, field \(field.rawValue)")
+}
+check(SyntheticEvent.isOurs(synthetic), "handler preserves synthetic marker")
 
 print("\(checks - failures)/\(checks) checks passed")
 exit(failures == 0 ? 0 : 1)

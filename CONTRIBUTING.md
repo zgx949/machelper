@@ -12,6 +12,7 @@
 
 ```sh
 ./scripts/test-logic.sh
+./scripts/test-plugin-host.sh
 xcodebuild -project machelper.xcodeproj -scheme machelper -destination 'platform=macOS' -configuration Debug build
 ```
 

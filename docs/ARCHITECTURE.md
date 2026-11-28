@@ -83,5 +83,5 @@ protocol Plugin: AnyObject {
 
 ## 已知限制
 
-- 鼠标和触控板按 `isContinuous` 和滚动阶段区分，Magic Mouse 和部分高精度鼠标会被当成触控板。
+- 鼠标和触控板按 `scrollPhase`、`momentumPhase` 区分；无阶段的高精度鼠标仍按鼠标处理。Magic Mouse 等发送手势阶段的设备会被当成触控板，尚未使用 IOHID 识别物理设备。
 - 插件编译进 App，不支持运行时加载外部插件。

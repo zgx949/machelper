@@ -41,6 +41,9 @@ jobs:
       - name: Logic tests
         run: ./scripts/test-logic.sh
 
+      - name: Plugin lifecycle tests
+        run: ./scripts/test-plugin-host.sh
+
       - name: Build (Release, unsigned)
         run: |
           set -o pipefail

@@ -47,6 +47,9 @@ jobs:
       - name: Logic tests
         run: ./scripts/test-logic.sh
 
+      - name: Plugin lifecycle tests
+        run: ./scripts/test-plugin-host.sh
+
       - name: Release notes
         run: |
           mkdir -p build

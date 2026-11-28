@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>machelper · 安装指南 / Installation</title>
+  <style>
+    :root { color-scheme: light dark; --accent: #4266d5; --muted: #626878; --card: #fff; --line: #dfe3ec; }
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 48px 24px; background: #f3f5fa; color: #202636; font: 16px/1.65 -apple-system, BlinkMacSystemFont, sans-serif; }
+    main { max-width: 760px; margin: auto; }
+    h1 { margin: 0; font-size: 38px; letter-spacing: -1px; }
+    h2 { margin: 0 0 8px; font-size: 20px; }
+    p { margin: 8px 0; }
+    .subtitle, .en, footer { color: var(--muted); }
+    .steps { display: grid; gap: 16px; margin: 28px 0; }
+    section { padding: 24px; border: 1px solid var(--line); border-radius: 16px; background: var(--card); }
+    .number { color: var(--accent); margin-right: 10px; }
+    .transfer { padding: 16px; margin: 16px 0; border: 1px dashed var(--line); border-radius: 10px; text-align: center; font-weight: 600; }
+    .transfer span { padding: 0 16px; color: var(--accent); }
+    a { color: var(--accent); text-underline-offset: 3px; }
+    code { font-size: .9em; overflow-wrap: anywhere; }
+    footer { font-size: 13px; padding: 0 4px; }
+    @media (prefers-color-scheme: dark) {
+      :root { --accent: #a3b7ff; --muted: #afb6c8; --card: #202632; --line: #3a4353; }
+      body { background: #171c26; color: #f0f2f8; }
+    }
+    @media (max-width: 500px) { body { padding: 24px 16px; } section { padding: 18px; } .transfer span { padding: 0 8px; } }
+  </style>
+</head>
+<body>
+<main>
+  <h1>machelper</h1>
+  <p class="subtitle">安装与首次使用 · Installation &amp; first launch<br>macOS 27.2+</p>
+  <div class="steps">
+    <section>
+      <h2><span class="number">01</span>拖入“应用程序” / Install</h2>
+      <div class="transfer">machelper.app <span aria-label="移动到 / move to">→</span> Applications</div>
+      <p>将 App 拖入“应用程序”。ZIP 用户先解压再移动。随后从“应用程序”打开 machelper；不要直接从 DMG 运行。复制完成后可以推出 DMG。</p>
+      <p class="en" lang="en">Drag the app to Applications. For a ZIP, extract it first. Launch the copy in Applications, then eject the DMG.</p>
+    </section>
+    <section>
+      <h2><span class="number">02</span>开启辅助功能 / Allow Accessibility</h2>
+      <p>按首次启动引导打开 <strong>系统设置 → 隐私与安全性 → 辅助功能</strong>，打开 <strong>machelper</strong> 开关。未列出时点 <strong>＋</strong> 添加 <code>/Applications/machelper.app</code>。</p>
+      <p>该权限用于反转滚动、移动窗口和模拟粘贴。App 每秒检查权限；授权后引导自动关闭，等待权限的插件自动启动。</p>
+      <p class="en" lang="en">Follow the setup guide to enable <strong>System Settings → Privacy &amp; Security → Accessibility → machelper</strong>. Use <strong>＋</strong> to add the app from Applications if missing. The guide closes automatically after access is granted. This permission enables scroll reversal, window movement and simulated paste.</p>
+      <p><a href="x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility">打开辅助功能设置 / Open Accessibility Settings</a></p>
+    </section>
+    <section>
+      <h2><span class="number">03</span>试一下滚动 / Try scrolling</h2>
+      <p>在长网页中试滚动：默认只反转鼠标，触控板保持原样。在 <strong>菜单栏图标 → 设置… → 滚动方向</strong> 检查插件是否“运行中”。</p>
+      <p>machelper 常驻屏幕顶部菜单栏，不显示 Dock 图标。需要再次设置时，从菜单打开 <strong>安装与授权引导…</strong>。</p>
+      <p class="en" lang="en">Scroll a long webpage. Mouse reversal is on by default; trackpad reversal is off. Check that Scroll Direction is running in Settings. The app lives in the menu bar with no Dock icon. Reopen <strong>Setup Guide…</strong> from its menu whenever needed.</p>
+    </section>
+    <section>
+      <h2>需要帮助？ / Need help?</h2>
+      <p><strong>授权后仍未生效：</strong>确认运行的是“应用程序”中的版本。在辅助功能列表中关闭再开启开关。更新后仍无效时，退出 App，移除旧条目，再添加当前 App 并重新打开。插件出错时可在设置中重试。</p>
+      <p><strong>运行中但方向没变：</strong>检查反转开关，暂停其他滚动工具。发送手势或惯性阶段的 Magic Mouse 等设备使用“反转触控板”；无阶段的高精度鼠标使用“反转鼠标”。</p>
+      <p class="en" lang="en">If permission is not recognized, toggle access off and on. After an update, quit the app, remove its old Accessibility entry, add the current copy, then reopen it. Retry failed plugins in Settings. Check reversal switches and pause other scroll tools; Magic Mouse gestures use the trackpad setting; high-resolution wheels without gesture phases use the mouse setting.</p>
+      <p><strong>首次打开被拦截：</strong>确认下载来自本项目 Release 后，按 <a href="https://support.apple.com/102445">Apple 的说明 / Apple's instructions</a> 在“隐私与安全性”中选择“仍要打开 / Open Anyway”。</p>
+    </section>
+  </div>
+  <footer>此页面可离线阅读。 / This guide works offline.<br><a href="https://github.com/zgx949/machelper">项目主页 / Project</a> · <a href="https://support.apple.com/guide/mac-help/mh43185/mac">Apple 辅助功能帮助 / Accessibility help</a></footer>
+</main>
+</body>
+</html>

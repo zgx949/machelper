@@ -1,6 +1,108 @@
 {
   "sourceLanguage" : "zh-Hans",
   "strings" : {
+    "A few steps to get your menu bar helper ready." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A few steps to get your menu bar helper ready."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完成几步设置，让菜单栏小助手开始工作。"
+          }
+        }
+      }
+    },
+    "Accessibility" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accessibility"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "辅助功能"
+          }
+        }
+      }
+    },
+    "Accessibility is enabled" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accessibility is enabled"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "辅助功能权限已开启"
+          }
+        }
+      }
+    },
+    "Accessibility is not enabled yet" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accessibility is not enabled yet"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尚未开启辅助功能权限"
+          }
+        }
+      }
+    },
+    "Allow Accessibility" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allow Accessibility"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开启辅助功能权限"
+          }
+        }
+      }
+    },
+    "Back" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Back"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上一步"
+          }
+        }
+      }
+    },
     "Bottom Half" : {
       "localizations" : {
         "en" : {
@@ -81,6 +183,39 @@
         }
       }
     },
+    "Check Again" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check Again"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重新检查"
+          }
+        }
+      }
+    },
+    "Check Your Features" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check Your Features"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "检查功能状态"
+          }
+        }
+      }
+    },
     "Clear History" : {
       "localizations" : {
         "en" : {
@@ -113,6 +248,23 @@
         }
       }
     },
+    "Continue" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continue"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "继续"
+          }
+        }
+      }
+    },
     "Could not start the scroll event tap." : {
       "localizations" : {
         "en" : {
@@ -125,6 +277,57 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "无法启动滚动事件拦截。"
+          }
+        }
+      }
+    },
+    "Drag machelper into Applications in the disk image." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Drag machelper into Applications in the disk image."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在安装磁盘中，将 machelper 拖入“应用程序”文件夹。"
+          }
+        }
+      }
+    },
+    "Eject the disk image, then open machelper from Applications." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eject the disk image, then open machelper from Applications."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "推出安装磁盘，再从“应用程序”中打开 machelper。"
+          }
+        }
+      }
+    },
+    "Enable Accessibility…" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enable Accessibility…"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "前往开启辅助功能…"
           }
         }
       }
@@ -145,6 +348,22 @@
         }
       }
     },
+    "Go to Settings" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Go to Settings"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "去打开"
+          }
+        }
+      }
+    },
     "Grant Accessibility…" : {
       "localizations" : {
         "en" : {
@@ -161,6 +380,23 @@
         }
       }
     },
+    "Grant permissions to the copy in Applications so they stay associated with the app you use. If you are running from the disk image or Downloads, quit and move the app first." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grant permissions to the copy in Applications so they stay associated with the app you use. If you are running from the disk image or Downloads, quit and move the app first."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请给“应用程序”中的副本授权，确保权限对应日常使用的 App。如果正从安装磁盘或“下载”文件夹运行，请先退出并移动 App。"
+          }
+        }
+      }
+    },
     "History" : {
       "localizations" : {
         "en" : {
@@ -173,6 +409,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "历史记录"
+          }
+        }
+      }
+    },
+    "If machelper is missing from the list, use + to add the app in Applications. If an update leaves the switch on but features still fail, remove the old entry with −, add this copy again and enable it." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "If machelper is missing from the list, use + to add the app in Applications. If an update leaves the switch on but features still fail, remove the old entry with −, add this copy again and enable it."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "若列表中没有 machelper，点击 + 添加“应用程序”中的 App。若更新后开关已开启但功能仍无效，请用 − 移除旧条目，再添加当前副本并开启。"
           }
         }
       }
@@ -209,6 +462,23 @@
         }
       }
     },
+    "Install" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Install"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "安装"
+          }
+        }
+      }
+    },
     "Keep %lld items" : {
       "localizations" : {
         "en" : {
@@ -237,6 +507,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "记录复制过的文本，可搜索，并用键盘快速粘贴。"
+          }
+        }
+      }
+    },
+    "Keep machelper in Applications" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep machelper in Applications"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "先将 machelper 放入“应用程序”"
           }
         }
       }
@@ -291,6 +578,40 @@
     },
     "machelper" : {
       "shouldTranslate" : false
+    },
+    "machelper lives in the menu bar at the top of your screen. It does not show a Dock icon." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "machelper lives in the menu bar at the top of your screen. It does not show a Dock icon."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "machelper 常驻屏幕顶部的菜单栏，不会在程序坞显示图标。"
+          }
+        }
+      }
+    },
+    "machelper needs Accessibility to reverse scrolling, arrange windows and paste clipboard items. Without it, these features cannot run." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "machelper needs Accessibility to reverse scrolling, arrange windows and paste clipboard items. Without it, these features cannot run."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "滚动反转、窗口分屏和粘贴剪贴板内容需要辅助功能权限。未授权时，这些功能无法运行。"
+          }
+        }
+      }
     },
     "Maximize" : {
       "localizations" : {
@@ -352,6 +673,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已关闭"
+          }
+        }
+      }
+    },
+    "Open a webpage and scroll with your mouse to check the direction. On a fresh install, mouse reversal is on and trackpad reversal is off. Your existing preferences are preserved." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open a webpage and scroll with your mouse to check the direction. On a fresh install, mouse reversal is on and trackpad reversal is off. Your existing preferences are preserved."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开网页，用鼠标滚轮检查方向。首次安装默认开启鼠标反转，触控板方向保持不变；已有偏好设置会保留。"
+          }
+        }
+      }
+    },
+    "Open System Settings → Privacy & Security → Accessibility." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open System Settings → Privacy & Security → Accessibility."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开“系统设置 → 隐私与安全性 → 辅助功能”。"
           }
         }
       }
@@ -432,6 +787,39 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "还原"
+          }
+        }
+      }
+    },
+    "Retry" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retry"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重试"
+          }
+        }
+      }
+    },
+    "Return here. Enabled plugins start automatically after permission is detected." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Return here. Enabled plugins start automatically after permission is detected."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "回到此窗口，检测到权限后，已开启的插件会自动启动。"
           }
         }
       }
@@ -548,6 +936,40 @@
         }
       }
     },
+    "Running from Applications" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Running from Applications"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当前正从“应用程序”运行"
+          }
+        }
+      }
+    },
+    "Running outside Applications" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Running outside Applications"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当前不在“应用程序”中运行"
+          }
+        }
+      }
+    },
     "Scroll Direction" : {
       "localizations" : {
         "en" : {
@@ -592,6 +1014,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "向下滚动一大段"
+          }
+        }
+      }
+    },
+    "Scroll reversal, window tiling and pasting need Accessibility. Enable machelper in System Settings → Privacy & Security → Accessibility." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scroll reversal, window tiling and pasting need Accessibility. Enable machelper in System Settings → Privacy & Security → Accessibility."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "滚动反转、窗口分屏和粘贴需要辅助功能权限。请在“系统设置 → 隐私与安全性 → 辅助功能”中开启 machelper。"
           }
         }
       }
@@ -708,6 +1146,39 @@
         }
       }
     },
+    "Set Up Later" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Set Up Later"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "稍后设置"
+          }
+        }
+      }
+    },
+    "Set Up machelper" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Set Up machelper"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设置 machelper"
+          }
+        }
+      }
+    },
     "Settings…" : {
       "localizations" : {
         "en" : {
@@ -720,6 +1191,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "设置…"
+          }
+        }
+      }
+    },
+    "Setup Guide…" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Setup Guide…"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "安装与授权引导…"
           }
         }
       }
@@ -740,6 +1227,23 @@
         }
       }
     },
+    "Show This App in Finder" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show This App in Finder"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在访达中显示当前 App"
+          }
+        }
+      }
+    },
     "Snap the focused window to halves, quarters or thirds, move it between displays and restore it." : {
       "localizations" : {
         "en" : {
@@ -752,6 +1256,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "把当前窗口移到半屏、四角或三分屏，在显示器之间移动，并可还原。"
+          }
+        }
+      }
+    },
+    "Some features are not ready. Check Accessibility, then try again. After an app update, you may need to remove and add machelper in the permission list." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Some features are not ready. Check Accessibility, then try again. After an app update, you may need to remove and add machelper in the permission list."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "部分功能尚未就绪。请检查辅助功能权限后重试。更新 App 后，可能需要在权限列表中移除并重新添加 machelper。"
+          }
+        }
+      }
+    },
+    "Start Using machelper" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start Using machelper"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开始使用 machelper"
           }
         }
       }
@@ -836,6 +1374,73 @@
         }
       }
     },
+    "Try It Out" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try It Out"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "检查与试用"
+          }
+        }
+      }
+    },
+    "Turn on machelper. Authenticate with your Mac password or Touch ID if asked." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn on machelper. Authenticate with your Mac password or Touch ID if asked."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开启 machelper 右侧的开关；如有提示，使用 Mac 密码或触控 ID 验证。"
+          }
+        }
+      }
+    },
+    "Turn on the machelper switch" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn on the machelper switch"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开 machelper 的开关"
+          }
+        }
+      }
+    },
+    "Use the menu bar icon → Settings to choose plugins and scroll direction. You can reopen this guide from the menu or Settings at any time." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use the menu bar icon → Settings to choose plugins and scroll direction. You can reopen this guide from the menu or Settings at any time."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "点击菜单栏图标 → 设置，可选择插件和滚动方向。随时可从菜单或设置重新打开此引导。"
+          }
+        }
+      }
+    },
     "Use the menu bar to ignore the frontmost app." : {
       "localizations" : {
         "en" : {
@@ -880,6 +1485,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "等待辅助功能权限"
+          }
+        }
+      }
+    },
+    "Welcome to machelper" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welcome to machelper"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "欢迎使用 machelper"
           }
         }
       }

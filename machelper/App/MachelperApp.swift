@@ -6,11 +6,11 @@ struct MachelperApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
 
     var body: some Scene {
-        MenuBarExtra("machelper", systemImage: "wand.and.stars") {
-            MenuBarContent(host: appDelegate.host)
+        MenuBarExtra("machelper", image: "MenuBarIcon") {
+            MenuBarContent(host: appDelegate.host, showSetup: appDelegate.showSetup)
         }
         Settings {
-            SettingsView(host: appDelegate.host)
+            SettingsView(host: appDelegate.host, showSetup: appDelegate.showSetup)
         }
     }
 }
@@ -18,9 +18,21 @@ struct MachelperApp: App {
 /// Owns the plugin host so plugins live for the whole process, independent of scenes.
 final class AppDelegate: NSObject, NSApplicationDelegate {
     let host = PluginHost(plugins: PluginCatalog.all)
+    private lazy var setup = SetupWindowController(host: host)
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         host.start()
+        if !host.isAccessibilityGranted {
+            showSetup()
+        }
+    }
+
+    func applicationDidBecomeActive(_ notification: Notification) {
+        host.refreshPermissions()
+    }
+
+    func showSetup() {
+        setup.show()
     }
 
     func applicationWillTerminate(_ notification: Notification) {
@@ -31,6 +43,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 /// One section per running plugin, then permissions, Settings and Quit.
 private struct MenuBarContent: View {
     let host: PluginHost
+    let showSetup: () -> Void
     @Environment(\.openSettings) private var openSettings
 
     var body: some View {
@@ -40,10 +53,11 @@ private struct MenuBarContent: View {
 
         if host.isWaitingForPermission {
             Divider()
-            Button("Grant Accessibility…") { Permissions.openAccessibilitySettings() }
+            Button("Grant Accessibility…", action: showSetup)
         }
 
         Divider()
+        Button("Setup Guide…", action: showSetup)
         Button("Settings…") {
             NSApp.activate() // menu bar apps are not frontmost; bring the window forward
             openSettings()

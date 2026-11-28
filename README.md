@@ -1,5 +1,7 @@
 # machelper
 
+<img src="machelper/Assets.xcassets/AppLogo.imageset/AppLogo@2x.png" width="96" height="96" alt="machelper Logo">
+
 [![CI](https://github.com/zgx949/machelper/actions/workflows/ci.yml/badge.svg)](https://github.com/zgx949/machelper/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/github/v/release/zgx949/machelper?include_prereleases&sort=semver)](https://github.com/zgx949/machelper/releases/latest)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
@@ -23,16 +25,15 @@ A native macOS menu bar utility that bundles clipboard history, scroll reversal,
 
 系统要求：macOS 27.2 或更高。
 
-1. 从 [Releases](https://github.com/zgx949/machelper/releases/latest) 下载 `machelper-<版本>.dmg`，把 **machelper** 拖进“应用程序”。
-2. 打开后，在 系统设置 → 隐私与安全性 → 辅助功能 中允许 machelper。
+1. 从 [Releases](https://github.com/zgx949/machelper/releases/latest) 下载 `machelper-<版本>.dmg`，把 **machelper** 拖进 **Applications（应用程序）**。ZIP 用户先解压，再把 App 移到“应用程序”。
+2. 从“应用程序”打开 machelper，按首次启动的引导完成授权：**系统设置 → 隐私与安全性 → 辅助功能 → 打开 machelper 开关**。列表里没有时，点 **＋** 添加 `/Applications/machelper.app`。
+3. 授权后引导会自动关闭，然后在网页中试滚动。默认只反转鼠标，触控板方向保持原样；启动时已有权限则不会弹出引导。
 
-如果该版本未经公证，首次打开会被拦截：右键点击 App 选择“打开”，或执行：
+machelper 常驻屏幕顶部菜单栏，不显示 Dock 图标；点菜单栏图标可进入“设置…”或在未授权时重新打开“安装与授权引导…”。ZIP 内附带可双击阅读的双语安装指南，DMG 只包含 App 和 Applications 入口。详细排查见 [安装与首次使用](docs/INSTALL.md)。
 
-```sh
-xattr -dr com.apple.quarantine /Applications/machelper.app
-```
+Download the DMG, drag **machelper** to **Applications**, then launch it from there. Click **Go to Settings** to enable **System Settings → Privacy & Security → Accessibility → machelper**. The prompt closes automatically after permission is granted and stays hidden on launch if access is already enabled. The app lives in the menu bar, with no Dock icon. See the [installation guide](docs/INSTALL.md#english) for ZIP installation and troubleshooting.
 
-> 每次更新后，macOS 可能需要重新授予辅助功能权限（权限按二进制签名授予）。
+如果首次打开被 macOS 拦截，确认下载来自本项目的 Release 后，按 [Apple 的打开说明](https://support.apple.com/102445) 到“隐私与安全性”点击“仍要打开”。更新或本地重新构建后，可能需要重新授予辅助功能权限，方法见安装指南。
 
 ## 从源码构建 / Build from source
 
@@ -44,6 +45,7 @@ xcodebuild -project machelper.xcodeproj -scheme machelper -destination 'platform
 
 # 逻辑测试（纯逻辑代码，无需 XCTest）
 ./scripts/test-logic.sh
+./scripts/test-plugin-host.sh
 
 # 本地打包 .dmg / .zip 到 dist/
 ./scripts/package.sh 0.1.0
