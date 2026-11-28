@@ -7,10 +7,14 @@ struct MachelperApp: App {
 
     var body: some Scene {
         MenuBarExtra("machelper", image: "MenuBarIcon") {
-            MenuBarContent(host: appDelegate.host, showSetup: appDelegate.showSetup)
+            MenuBarContent(host: appDelegate.host, showMain: appDelegate.showMain,
+                           showSettings: appDelegate.showSettings, showSetup: appDelegate.showSetup)
         }
-        Settings {
-            SettingsView(host: appDelegate.host, showSetup: appDelegate.showSetup)
+        .commands {
+            CommandGroup(replacing: .appSettings) {
+                Button("Settings…", action: appDelegate.showSettings)
+                    .keyboardShortcut(",")
+            }
         }
     }
 }
@@ -18,21 +22,41 @@ struct MachelperApp: App {
 /// Owns the plugin host so plugins live for the whole process, independent of scenes.
 final class AppDelegate: NSObject, NSApplicationDelegate {
     let host = PluginHost(plugins: PluginCatalog.all)
-    private lazy var setup = SetupWindowController(host: host)
+    let appSettings = AppSettings()
+    private lazy var mainWindow = MainWindowController(host: host, appSettings: appSettings)
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         host.start()
-        if !host.isAccessibilityGranted {
-            showSetup()
+        if appSettings.shouldShowMainWindow(isAccessibilityGranted: host.isAccessibilityGranted,
+                                            hasFailures: host.hasFailures) {
+            showMain()
         }
     }
 
     func applicationDidBecomeActive(_ notification: Notification) {
         host.refreshPermissions()
+        appSettings.refreshLoginItemStatus()
+    }
+
+    func showMain() {
+        mainWindow.show()
+    }
+
+    func showSettings() {
+        mainWindow.show(selection: "general")
     }
 
     func showSetup() {
-        setup.show()
+        mainWindow.show(selection: "setup")
+    }
+
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        showMain()
+        return false
+    }
+
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+        false
     }
 
     func applicationWillTerminate(_ notification: Notification) {
@@ -43,10 +67,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 /// One section per running plugin, then permissions, Settings and Quit.
 private struct MenuBarContent: View {
     let host: PluginHost
+    let showMain: () -> Void
+    let showSettings: () -> Void
     let showSetup: () -> Void
-    @Environment(\.openSettings) private var openSettings
 
     var body: some View {
+        Button("Open machelper…", action: showMain)
+        Divider()
+
         ForEach(host.entries.filter { $0.state == .running }) { entry in
             PluginMenuSection(entry: entry, bindings: host.commands.bindings[entry.id] ?? [])
         }
@@ -58,10 +86,7 @@ private struct MenuBarContent: View {
 
         Divider()
         Button("Setup Guide…", action: showSetup)
-        Button("Settings…") {
-            NSApp.activate() // menu bar apps are not frontmost; bring the window forward
-            openSettings()
-        }
+        Button("Settings…", action: showSettings)
         .keyboardShortcut(",")
         Button("Quit machelper") { NSApp.terminate(nil) }
             .keyboardShortcut("q")

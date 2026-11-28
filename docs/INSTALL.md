@@ -8,21 +8,29 @@
 
 从“应用程序”打开 machelper。请先完成复制，再授权；不要直接从 DMG 或下载目录运行。安装完成后可以推出 DMG。
 
-## 2. 开启辅助功能权限
+## 2. 查看主界面并开启权限
 
-未授权时启动会显示单屏引导：Logo、“打开 machelper 的开关”和“去打开”按钮；启动时已有权限则不弹窗。辅助功能权限用于反转滚动、移动窗口和模拟粘贴；未授权时，这些插件会等待，不会生效。
+默认启动后会显示主界面，并选中“通用”页，方便确认 App 已运行。这里可以查看辅助功能权限以及功能运行、等待授权和出错的数量；左侧“设置引导”提供安装位置、授权步骤和功能检查，已有权限时也能打开。
 
-1. 点击“去打开”，前往 **系统设置 → 隐私与安全性 → 辅助功能**。
+辅助功能权限用于反转滚动、移动窗口、键盘滚动和自动粘贴。未授权时，需要该权限的插件会等待；剪贴板历史仍可记录和搜索，自动粘贴需要授权。
+
+1. 点击授权按钮，前往 **系统设置 → 隐私与安全性 → 辅助功能**。
 2. 找到 **machelper** 并打开开关，按系统提示认证。如果列表里没有它，点击 **＋**，选择 `/Applications/machelper.app`。
-3. App 每秒检查一次权限。授权后引导自动关闭，等待权限的插件自动启动。
+3. App 每秒检查一次权限。授权后等待权限的插件自动启动，窗口保留供你检查结果。如仍有功能出错，点击“重新检查”重试，或在对应插件页面查看原因。
 
 权限开关只能由你在系统设置中开启。参见 [Apple：允许辅助功能 App 访问 Mac](https://support.apple.com/guide/mac-help/mh43185/mac)。
 
-## 3. 检查滚动和菜单栏
+## 3. 检查功能并收起到菜单栏
 
 在有长内容的网页或文档中滚动鼠标滚轮。默认启用“反转鼠标”，触控板方向保持原样。通过 **菜单栏 machelper 图标 → 设置… → 滚动方向**，确认插件显示“运行中”，并按偏好调整鼠标和触控板开关。
 
-machelper 不显示 Dock 图标。关闭引导窗口后，功能继续在菜单栏运行；未授权时可以从菜单重新打开 **安装与授权引导…**。
+machelper 不显示 Dock 图标。点击 **收起并在菜单栏运行** 或关闭窗口，已开启的功能会继续运行，窗口不会在授权后自动消失。菜单栏中的 **打开 machelper…**、**设置…** 和 **安装与授权引导…** 都会打开同一个主窗口；再次打开 App 也可找回窗口。
+
+## 4. 设置启动行为
+
+在 **通用 → 启动** 中按需开启 **开机自启**。开关和批准状态来自 macOS；如果提示需要批准，点击“打开登录项…”并按系统提示完成。注册失败时此页会显示错误，先确认 App 已安装到“应用程序”。
+
+**启动时显示主界面** 默认开启。关闭后，后续启动直接驻留菜单栏；缺少辅助功能权限或有功能启动失败时仍会显示主界面，方便继续设置和排查。关闭此选项不影响从菜单或再次打开 App 来显示窗口。
 
 ## 遇到问题
 
@@ -36,10 +44,12 @@ machelper 不显示 Dock 图标。关闭引导窗口后，功能继续在菜单�
 Requires macOS 27.2 or later.
 
 1. Download the DMG from [Releases](https://github.com/zgx949/machelper/releases/latest). Drag **machelper** to **Applications**. For ZIP downloads, extract the archive and move `machelper.app` to `/Applications`.
-2. Launch the copy in Applications. If permission is missing, a single screen shows the logo, **Turn on the machelper switch** and **Go to Settings**. Click the button and enable **System Settings → Privacy & Security → Accessibility → machelper**. If it is missing, use **＋** to add `/Applications/machelper.app`. This permission is needed for scroll reversal, window movement and simulated paste.
-3. The app checks permission every second and closes the prompt automatically once access is granted. Plugins waiting for permission start automatically. If access is already enabled at launch, the prompt stays hidden. Try scrolling a long webpage: mouse reversal is on by default; trackpad reversal is off.
+2. Launch the copy in Applications. The main window opens to **General** by default, showing Accessibility and feature status. **Setup Guide** in the sidebar explains installation, permission steps and feature checks, and remains available even after authorization. Use the permission button to open **System Settings → Privacy & Security → Accessibility → machelper**. If the app is missing, use **＋** to add `/Applications/machelper.app`. This permission is needed for scroll reversal, window movement, keyboard scrolling and automatic paste. Clipboard history can still record and search without it.
+3. The app checks permission every second. Plugins waiting for permission start automatically when access is granted, and the window stays open so you can check the result. Use **Check Again** to retry failed features or select the plugin to inspect its error. Try scrolling a long webpage: mouse reversal is on by default; trackpad reversal is off.
+4. Choose **Continue in Menu Bar** or close the window to leave enabled features running. The app has no Dock icon. **Open machelper…**, **Settings…** and **Setup Guide…** in its menu all open the same main window. Opening the app again also shows the window.
+5. In **General → Startup**, optionally enable **Launch at Login**. Its state comes from macOS; if approval is required, use **Open Login Items…** to finish enabling it. Registration errors appear on this page. **Show Main Window at Launch** is on by default. Turn it off for future launches to stay in the menu bar; missing Accessibility or a feature startup failure still opens the window for setup and troubleshooting.
 
-The app runs in the menu bar and has no Dock icon. Use its menu to open **Settings…**, or **Setup Guide…** if permission is missing. The ZIP includes an offline HTML installation guide. The DMG contains only the app and an Applications shortcut.
+The ZIP includes an offline HTML installation guide. The DMG contains only the app and an Applications shortcut.
 
 If macOS blocks the first launch, verify the download came from this project's Release, then follow [Apple's instructions](https://support.apple.com/102445) to use **Open Anyway** in Privacy & Security. See [Apple's Accessibility guide](https://support.apple.com/guide/mac-help/mh43185/mac) for permission settings.
 

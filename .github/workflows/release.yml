@@ -50,6 +50,9 @@ jobs:
       - name: Plugin lifecycle tests
         run: ./scripts/test-plugin-host.sh
 
+      - name: App settings tests
+        run: ./scripts/test-app-settings.sh
+
       - name: Release notes
         run: |
           mkdir -p build

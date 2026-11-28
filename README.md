@@ -19,19 +19,19 @@ A native macOS menu bar utility that bundles clipboard history, scroll reversal,
 | 窗口分屏 | 左右/上下半屏、四角、三分屏、最大化、居中、移到其他显示器、还原，快捷键与 Magnet 一致 |
 | 键盘滚动 | 用快捷键滚动前台窗口（默认关闭，与窗口插件的 ⌃⌥J/K 冲突） |
 
-每个功能都是一个插件，可在设置里单独开关；缺少权限时会等待，授权后自动启用，无需重启。快捷键冲突会在设置中标红。界面支持简体中文和英文，跟随系统语言。
+每个功能都是一个插件，可在设置里单独开关；缺少权限时会等待，授权后自动启用，无需重启。默认先展示主界面的“通用”页，可查看权限与功能状态、设置开机自启及启动时是否显示窗口。快捷键冲突会在设置中标红。界面支持简体中文和英文，跟随系统语言。
 
 ## 安装 / Install
 
 系统要求：macOS 27.2 或更高。
 
 1. 从 [Releases](https://github.com/zgx949/machelper/releases/latest) 下载 `machelper-<版本>.dmg`，把 **machelper** 拖进 **Applications（应用程序）**。ZIP 用户先解压，再把 App 移到“应用程序”。
-2. 从“应用程序”打开 machelper，按首次启动的引导完成授权：**系统设置 → 隐私与安全性 → 辅助功能 → 打开 machelper 开关**。列表里没有时，点 **＋** 添加 `/Applications/machelper.app`。
-3. 授权后引导会自动关闭，然后在网页中试滚动。默认只反转鼠标，触控板方向保持原样；启动时已有权限则不会弹出引导。
+2. 从“应用程序”打开 machelper，先进入主界面的“通用”页。缺少权限时，点击授权按钮或打开“安装与授权引导”：**系统设置 → 隐私与安全性 → 辅助功能 → 打开 machelper 开关**。列表里没有时，点 **＋** 添加 `/Applications/machelper.app`。
+3. 授权后等待中的功能自动启用，窗口会保留供你检查。在网页中试滚动：默认只反转鼠标，触控板方向保持原样。点击 **收起并在菜单栏运行** 或关闭窗口，App 会收起并继续工作。
 
-machelper 常驻屏幕顶部菜单栏，不显示 Dock 图标；点菜单栏图标可进入“设置…”或在未授权时重新打开“安装与授权引导…”。ZIP 内附带可双击阅读的双语安装指南，DMG 只包含 App 和 Applications 入口。详细排查见 [安装与首次使用](docs/INSTALL.md)。
+machelper 常驻屏幕顶部菜单栏，不显示 Dock 图标；菜单中的“打开 machelper…”、“设置…”和“安装与授权引导…”都会回到同一个主窗口，已有权限时也可查看引导。“通用”页可设置开机自启；若系统要求额外批准，可直接前往“登录项”完成。默认启动时显示主界面；关闭该选项后从菜单栏启动，缺少辅助功能权限或有功能启动失败时仍会显示窗口。ZIP 内附带可双击阅读的双语安装指南，DMG 只包含 App 和 Applications 入口。详细排查见 [安装与首次使用](docs/INSTALL.md)。
 
-Download the DMG, drag **machelper** to **Applications**, then launch it from there. Click **Go to Settings** to enable **System Settings → Privacy & Security → Accessibility → machelper**. The prompt closes automatically after permission is granted and stays hidden on launch if access is already enabled. The app lives in the menu bar, with no Dock icon. See the [installation guide](docs/INSTALL.md#english) for ZIP installation and troubleshooting.
+Download the DMG, drag **machelper** to **Applications**, then launch it from there. The main window opens to **General**, with permission and feature status, **Launch at Login**, and **Show Main Window at Launch**. Allow **System Settings → Privacy & Security → Accessibility → machelper**; waiting features start automatically, and the guide stays open for review. Choose **Continue in Menu Bar** or close the window to keep working in the background. The menu reopens the same window, with no Dock icon. Turning off the startup window keeps future launches in the menu bar unless Accessibility is missing or a feature fails to start. See the [installation guide](docs/INSTALL.md#english) for ZIP installation and troubleshooting.
 
 如果首次打开被 macOS 拦截，确认下载来自本项目的 Release 后，按 [Apple 的打开说明](https://support.apple.com/102445) 到“隐私与安全性”点击“仍要打开”。更新或本地重新构建后，可能需要重新授予辅助功能权限，方法见安装指南。
 
@@ -46,6 +46,7 @@ xcodebuild -project machelper.xcodeproj -scheme machelper -destination 'platform
 # 逻辑测试（纯逻辑代码，无需 XCTest）
 ./scripts/test-logic.sh
 ./scripts/test-plugin-host.sh
+./scripts/test-app-settings.sh
 
 # 本地打包 .dmg / .zip 到 dist/
 ./scripts/package.sh 0.1.0

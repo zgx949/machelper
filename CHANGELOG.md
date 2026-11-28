@@ -8,6 +8,20 @@ Each release on GitHub uses the notes from its section here.
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-11-28
+
+### Added
+
+- A default General page with Accessibility permission, feature status, app location, launch-at-login and startup-window settings.
+- Launch-at-login support using the macOS login-item service, including approval guidance and registration errors.
+- A persistent setup guide with installation checks, permission steps, troubleshooting and live feature checks.
+
+### Changed
+
+- Show the main window on startup by default, including when Accessibility is already granted. Close the window or choose Continue in Menu Bar to keep the app running in the background.
+- Open the main page, Settings and setup guide in the same reusable window. Missing Accessibility or a feature startup failure still brings up the window when the startup-window preference is off.
+- Keep the guide visible after authorization so users can review feature status before continuing.
+
 ## [0.2.0] - 2026-11-28
 
 ### Added
@@ -34,6 +48,7 @@ First public release.
 - Shortcut conflict detection: duplicate or unavailable shortcuts are shown in red in Settings.
 - Simplified Chinese and English UI, following the system language.
 
-[Unreleased]: https://github.com/zgx949/machelper/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/zgx949/machelper/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/zgx949/machelper/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/zgx949/machelper/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/zgx949/machelper/releases/tag/v0.1.0

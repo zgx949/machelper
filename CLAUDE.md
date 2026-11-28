@@ -32,10 +32,10 @@ Accessibility permission is granted per binary signature; after a rebuild macOS 
 
 ```
 machelper/
-├── App/        MachelperApp (@main, MenuBarExtra + Settings scene), AppDelegate, PluginCatalog
+├── App/        MachelperApp (@main, MenuBarExtra), AppDelegate, MainWindowController, PluginCatalog
 ├── Core/       Plugin/ (Plugin, PluginContext, PluginHost, CommandRegistry), HotKey, HotKeyCenter, Permissions, SyntheticEvent
 ├── Plugins/    Clipboard/, Window/, Scroll/, Actions/ — one folder per plugin
-└── Settings/   SettingsView (plugin list with switches + selected plugin's detail)
+└── Settings/   SettingsView (General, setup guide, plugin list and detail in one reusable window)
 ```
 
 - Every feature is a `Plugin`: a static `manifest` (id, name, icon, required permissions, `enabledByDefault`), `init(context:)`, `commands`, `activate()` / `deactivate()` and an optional `makeSettingsView()`. Adding a plugin = a folder under `Plugins/` plus one line in `PluginCatalog.all`.

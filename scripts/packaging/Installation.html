@@ -40,17 +40,24 @@
       <p class="en" lang="en">Drag the app to Applications. For a ZIP, extract it first. Launch the copy in Applications, then eject the DMG.</p>
     </section>
     <section>
-      <h2><span class="number">02</span>开启辅助功能 / Allow Accessibility</h2>
-      <p>按首次启动引导打开 <strong>系统设置 → 隐私与安全性 → 辅助功能</strong>，打开 <strong>machelper</strong> 开关。未列出时点 <strong>＋</strong> 添加 <code>/Applications/machelper.app</code>。</p>
-      <p>该权限用于反转滚动、移动窗口和模拟粘贴。App 每秒检查权限；授权后引导自动关闭，等待权限的插件自动启动。</p>
-      <p class="en" lang="en">Follow the setup guide to enable <strong>System Settings → Privacy &amp; Security → Accessibility → machelper</strong>. Use <strong>＋</strong> to add the app from Applications if missing. The guide closes automatically after access is granted. This permission enables scroll reversal, window movement and simulated paste.</p>
+      <h2><span class="number">02</span>查看主界面并授权 / Review and allow access</h2>
+      <p>默认启动后先显示主界面的<strong>通用</strong>页，展示权限与功能状态。打开侧栏的<strong>设置引导</strong>可查看安装位置、授权步骤和功能检查；已有权限时也能查看。</p>
+      <p>点击授权按钮，打开 <strong>系统设置 → 隐私与安全性 → 辅助功能</strong>，开启 <strong>machelper</strong> 开关。未列出时点 <strong>＋</strong> 添加 <code>/Applications/machelper.app</code>。</p>
+      <p>该权限用于反转滚动、移动窗口、键盘滚动和自动粘贴；剪贴板历史仍可在未授权时记录和搜索。App 每秒检查权限，授权后等待中的插件自动启动，窗口保留供你检查结果。</p>
+      <p class="en" lang="en">The main window opens to <strong>General</strong>, with permission and feature status. <strong>Setup Guide</strong> in the sidebar remains available after authorization. Enable <strong>System Settings → Privacy &amp; Security → Accessibility → machelper</strong>. Use <strong>＋</strong> to add the app from Applications if missing. The app checks access every second and starts waiting plugins automatically; the window stays open for review. Accessibility enables scroll reversal, window layouts, keyboard scrolling and automatic paste. Clipboard history can still record and search without it.</p>
       <p><a href="x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility">打开辅助功能设置 / Open Accessibility Settings</a></p>
     </section>
     <section>
-      <h2><span class="number">03</span>试一下滚动 / Try scrolling</h2>
+      <h2><span class="number">03</span>检查功能并收起 / Check and continue</h2>
       <p>在长网页中试滚动：默认只反转鼠标，触控板保持原样。在 <strong>菜单栏图标 → 设置… → 滚动方向</strong> 检查插件是否“运行中”。</p>
-      <p>machelper 常驻屏幕顶部菜单栏，不显示 Dock 图标。需要再次设置时，从菜单打开 <strong>安装与授权引导…</strong>。</p>
-      <p class="en" lang="en">Scroll a long webpage. Mouse reversal is on by default; trackpad reversal is off. Check that Scroll Direction is running in Settings. The app lives in the menu bar with no Dock icon. Reopen <strong>Setup Guide…</strong> from its menu whenever needed.</p>
+      <p>点击<strong>收起并在菜单栏运行</strong>或关闭窗口，已开启的功能继续运行。machelper 常驻屏幕顶部菜单栏，不显示 Dock 图标。菜单中的<strong>打开 machelper…</strong>、<strong>设置…</strong>和<strong>安装与授权引导…</strong>都会回到同一个主窗口。</p>
+      <p class="en" lang="en">Scroll a long webpage. Mouse reversal is on by default; trackpad reversal is off. Check that Scroll Direction is running in Settings. Choose <strong>Continue in Menu Bar</strong> or close the window to keep enabled features running. The app has no Dock icon. <strong>Open machelper…</strong>, <strong>Settings…</strong> and <strong>Setup Guide…</strong> in its menu reopen the same main window.</p>
+    </section>
+    <section>
+      <h2><span class="number">04</span>设置启动行为 / Startup preferences</h2>
+      <p>在<strong>通用 → 启动</strong>中按需开启<strong>开机自启</strong>。状态来自 macOS；如提示需要批准，点击<strong>打开登录项…</strong>完成。注册失败时此处会显示错误。</p>
+      <p><strong>启动时显示主界面</strong>默认开启。关闭后直接驻留菜单栏；缺少辅助功能权限或有功能启动失败时仍会显示窗口。再次打开 App 也可显示主窗口。</p>
+      <p class="en" lang="en">Optionally enable <strong>Launch at Login</strong> under <strong>General → Startup</strong>. Its state comes from macOS. If approval is needed, choose <strong>Open Login Items…</strong>; registration errors appear here. <strong>Show Main Window at Launch</strong> is on by default. Turn it off to start in the menu bar unless Accessibility is missing or a feature fails to start. Opening the app again also shows its window.</p>
     </section>
     <section>
       <h2>需要帮助？ / Need help?</h2>
